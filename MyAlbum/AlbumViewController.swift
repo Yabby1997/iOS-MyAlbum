@@ -24,9 +24,6 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         
-        self.collectionView.dataSource = self
-        self.collectionView.delegate = self
-        
         let flowLayout = UICollectionViewFlowLayout()
         let width = UIScreen.main.bounds.width / 3.0
         flowLayout.itemSize = CGSize(width: width, height: width)
@@ -60,6 +57,23 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
             })
         
         return cell
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let imageViewController: ImageViewController = segue.destination as? ImageViewController else {
+            return
+        }
+        
+        guard let indexPath = collectionView.indexPathsForSelectedItems?.first else {
+            return
+        }
+        
+        guard let asset = album?.assets[indexPath.item] else {
+            return
+        }
+        
+        imageViewController.asset = asset
     }
     
 }

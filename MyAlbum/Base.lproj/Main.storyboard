@@ -189,8 +189,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="0M0-im-O2g">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xmark.bin.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pc7-hb-QHW">
-                                        <rect key="frame" x="0.0" y="0.5" width="414" height="773"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pc7-hb-QHW">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -215,6 +215,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Qfi-uv-p1k"/>
+                    <connections>
+                        <outlet property="imageView" destination="pc7-hb-QHW" id="MO3-Xw-u2U"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYW-yV-gt5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -222,7 +225,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="xmark.bin.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
