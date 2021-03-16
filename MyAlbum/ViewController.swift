@@ -93,10 +93,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             let numOfContents = assets.count
             
-            if numOfContents == 138 {
-                print("요기")
-            }
-            
             guard let thumbnail = assets.firstObject else {
                 return
             }
