@@ -16,9 +16,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let cellIdentifier = "albumCell"
     let imageManager: PHCachingImageManager = PHCachingImageManager()
     
-    var albums: [PHAssetCollection] = []
-    var thumbnails: [PHAsset] = []
-    var numOfItems: [Int] = []
+    var albums: [Album] = []
     
     // MARK: - View Methods
     override func viewDidLoad() {
@@ -45,7 +43,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         switch status{
         case .authorized:
             print("Authorized")
-            requestCollectionList()
+            self.getAlbum()
         case .denied:
             print("Denied")
         case .notDetermined:
@@ -54,7 +52,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 switch status {
                 case .authorized:
                     print("Authorized")
-                    self.requestCollectionList()
+                    self.getAlbum()
                 case .denied:
                     print("Denied")
                 default:
@@ -70,45 +68,46 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    func requestCollectionList() {
-        let recents: PHFetchResult<PHAssetCollection>! = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
-        let favorites: PHFetchResult<PHAssetCollection>! = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
-        let userAlbums: PHFetchResult<PHAssetCollection>! = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil)
+    func getAlbum() {
+        var collections: [PHAssetCollection] = []
+        let recents = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
+        let favorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
+        let userAlbums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil)
         
         for i in 0..<recents.count {
-            albums.append(recents[i])
+            collections.append(recents[i])
         }
         
         for i in 0..<favorites.count {
-            albums.append(favorites[i])
+            collections.append(favorites[i])
         }
         
         for i in 0..<userAlbums.count {
-            albums.append(userAlbums[i])
+            collections.append(userAlbums[i])
         }
         
-        getMetaData()
-    }
-    
-    func getMetaData() {
-        for album in albums {
+        for collection in collections {
             let fetchOptions = PHFetchOptions()
             fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            let asset = PHAsset.fetchAssets(in: album, options: fetchOptions)
+            let assets = PHAsset.fetchAssets(in: collection, options: fetchOptions)
             
-            if asset.count != 0 {
-                self.numOfItems.append(asset.count)
+            let numOfContents = assets.count
+            
+            if numOfContents == 138 {
+                print("요기")
             }
             
-            if let thumbnail = asset.firstObject {
-                self.thumbnails.append(thumbnail)
+            guard let thumbnail = assets.firstObject else {
+                return
             }
+            
+            albums.append(Album(collection: collection, thumbnail: thumbnail, numOfContents: numOfContents))
         }
     }
 
     // MARK: - CollectionViewDataSource Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return thumbnails.count
+        return albums.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -116,20 +115,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             return UICollectionViewCell()
         }
         
+        let album = albums[indexPath.item]
+        
         imageManager.requestImage(
-            for: thumbnails[indexPath.row],
-            targetSize: CGSize(width: 300, height: 300),
+            for: album.thumbnail,
+            targetSize: CGSize(width: 1000, height: 1000),
             contentMode: .aspectFill,
             options: nil,
             resultHandler: { image, _ in
-                cell.albumThumbnailImageView?.image = image
+                cell.albumThumbnailImageView.image = image
             })
         
         cell.albumThumbnailImageView.layer.cornerRadius = 5
         cell.albumThumbnailImageView.layer.masksToBounds = true
         
-        cell.albumNameLabel.text = albums[indexPath.item].localizedTitle!
-        cell.albumSizeLabel.text = String(numOfItems[indexPath.item])
+        cell.albumNameLabel.text = album.collectionTitle
+        cell.albumSizeLabel.text = String(album.numOfContents)
         
         return cell
     }

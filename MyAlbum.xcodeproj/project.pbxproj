@@ -14,6 +14,7 @@
 		1DD150FD260088A300D99010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DD150FC260088A300D99010 /* Assets.xcassets */; };
 		1DD15100260088A300D99010 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DD150FE260088A300D99010 /* LaunchScreen.storyboard */; };
 		1DD1510926008CF700D99010 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD1510826008CF700D99010 /* AlbumCollectionViewCell.swift */; };
+		1DD1510D2600FC2A00D99010 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD1510C2600FC2A00D99010 /* Album.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		1DD150FF260088A300D99010 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1DD15101260088A300D99010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DD1510826008CF700D99010 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		1DD1510C2600FC2A00D99010 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				1DD150F7260088A100D99010 /* ViewController.swift */,
 				1DD1510826008CF700D99010 /* AlbumCollectionViewCell.swift */,
 				1DD150F9260088A100D99010 /* Main.storyboard */,
+				1DD1510C2600FC2A00D99010 /* Album.swift */,
 				1DD150FC260088A300D99010 /* Assets.xcassets */,
 				1DD150FE260088A300D99010 /* LaunchScreen.storyboard */,
 				1DD15101260088A300D99010 /* Info.plist */,
@@ -144,6 +147,7 @@
 				1DD150F8260088A100D99010 /* ViewController.swift in Sources */,
 				1DD150F4260088A100D99010 /* AppDelegate.swift in Sources */,
 				1DD150F6260088A100D99010 /* SceneDelegate.swift in Sources */,
+				1DD1510D2600FC2A00D99010 /* Album.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
