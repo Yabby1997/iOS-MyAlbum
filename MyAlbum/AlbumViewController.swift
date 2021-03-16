@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import Photos
 
 class AlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     // MARK: - IBOutlets
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Properties
+    let imageManager: PHCachingImageManager = PHCachingImageManager()
     let cellIdentifier = "imageCell"
+    var album: Album?
     
     // MARK: - View Methods
     override func viewDidLoad() {
@@ -20,26 +23,41 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
 
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+        
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        let width = UIScreen.main.bounds.width / 3.0
+        flowLayout.itemSize = CGSize(width: width, height: width)
+        flowLayout.sectionInset = UIEdgeInsets.zero
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        self.collectionView.collectionViewLayout = flowLayout
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: - CollectionViewDataSource Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return album?.numOfContents ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell : UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+        guard let cell : ImageCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ImageCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        guard let asset = album?.assets[indexPath.item] else {
+            return cell
+        }
+        
+        imageManager.requestImage(
+            for: asset,
+            targetSize: CGSize(width: 1000, height: 1000),
+            contentMode: .aspectFill,
+            options: nil,
+            resultHandler: { image, _ in
+                cell.imageView.image = image
+            })
         
         return cell
     }

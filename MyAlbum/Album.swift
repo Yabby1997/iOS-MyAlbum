@@ -19,4 +19,12 @@ struct Album {
         }
         return title
     }
+    
+    var assets: PHFetchResult<PHAsset> {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let assets = PHAsset.fetchAssets(in: collection, options: fetchOptions)
+        
+        return assets
+    }
 }

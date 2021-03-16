@@ -17,6 +17,7 @@
 		1DD15100260088A300D99010 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DD150FE260088A300D99010 /* LaunchScreen.storyboard */; };
 		1DD1510926008CF700D99010 /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD1510826008CF700D99010 /* AlbumCollectionViewCell.swift */; };
 		1DD1510D2600FC2A00D99010 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD1510C2600FC2A00D99010 /* Album.swift */; };
+		1DE4628A26010D0F009CD383 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4628926010D0F009CD383 /* ImageCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		1DD15101260088A300D99010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DD1510826008CF700D99010 /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 		1DD1510C2600FC2A00D99010 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		1DE4628926010D0F009CD383 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				1DD150F7260088A100D99010 /* ViewController.swift */,
 				1DD1510826008CF700D99010 /* AlbumCollectionViewCell.swift */,
 				1DD150F9260088A100D99010 /* Main.storyboard */,
+				1DE4628926010D0F009CD383 /* ImageCollectionViewCell.swift */,
 				1D37E62226010627009FC927 /* ImageViewController.swift */,
 				1D37E61F260105FA009FC927 /* AlbumViewController.swift */,
 				1DD1510C2600FC2A00D99010 /* Album.swift */,
@@ -151,6 +154,7 @@
 			files = (
 				1D37E620260105FA009FC927 /* AlbumViewController.swift in Sources */,
 				1DD1510926008CF700D99010 /* AlbumCollectionViewCell.swift in Sources */,
+				1DE4628A26010D0F009CD383 /* ImageCollectionViewCell.swift in Sources */,
 				1DD150F8260088A100D99010 /* ViewController.swift in Sources */,
 				1D37E62326010627009FC927 /* ImageViewController.swift in Sources */,
 				1DD150F4260088A100D99010 /* AppDelegate.swift in Sources */,

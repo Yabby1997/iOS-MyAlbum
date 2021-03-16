@@ -136,5 +136,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         print("변화발생")
     }
     
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let albumViewController: AlbumViewController = segue.destination as? AlbumViewController else {
+            return
+        }
+        
+        guard let indexPath = collectionView.indexPathsForSelectedItems?.first else {
+            return
+        }
+        
+        let album = albums[indexPath.item]
+        
+        albumViewController.album = album
+    }
 }
 
