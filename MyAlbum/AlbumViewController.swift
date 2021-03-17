@@ -10,6 +10,7 @@ import Photos
 
 class AlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     // MARK: - IBOutlets
+    @IBOutlet weak var navigationBar: UINavigationItem!
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Properties
@@ -26,11 +27,13 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
         
         let flowLayout = UICollectionViewFlowLayout()
         let width = UIScreen.main.bounds.width / 3.0
-        flowLayout.itemSize = CGSize(width: width, height: width)
+        flowLayout.itemSize = CGSize(width: width - 1, height: width - 1)
         flowLayout.sectionInset = UIEdgeInsets.zero
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = 1.5
+        flowLayout.minimumInteritemSpacing = 1.5
         self.collectionView.collectionViewLayout = flowLayout
+        
+        navigationBar.title = album?.collectionTitle
     }
     
     // MARK: - CollectionViewDataSource Methods
@@ -47,14 +50,16 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
             return cell
         }
         
-        imageManager.requestImage(
-            for: asset,
-            targetSize: CGSize(width: 1000, height: 1000),
-            contentMode: .aspectFill,
-            options: nil,
-            resultHandler: { image, _ in
-                cell.imageView.image = image
-            })
+        OperationQueue.main.addOperation {
+            self.imageManager.requestImage(
+                for: asset,
+                targetSize: CGSize(width: 1000, height: 1000),
+                contentMode: .aspectFill,
+                options: nil,
+                resultHandler: { image, _ in
+                    cell.imageView.image = image
+                })
+        }
         
         return cell
     }

@@ -10,36 +10,39 @@ import Photos
 
 class ImageViewController: UIViewController {
     // MARK: - IBOutlet
+    @IBOutlet weak var navigationBar: UINavigationItem!
     @IBOutlet weak var imageView: UIImageView!
     
     // MARK: - Properties
     let imageManager: PHCachingImageManager = PHCachingImageManager()
     var asset: PHAsset?
     
+    let dateFormatter: DateFormatter = {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        
+        return formatter
+    }()
+    
+    // MARK: - View Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if asset != nil {
-            imageManager.requestImage(
-                for: asset!,
-                targetSize: CGSize(width: 1000, height: 1000),
-                contentMode: .aspectFill,
-                options: nil,
-                resultHandler: { image, _ in
-                    self.imageView.image = image
-                })
+            OperationQueue.main.addOperation {
+                let width = CGFloat(self.asset!.pixelWidth)
+                let height = CGFloat(self.asset!.pixelHeight)
+                self.imageManager.requestImage(
+                    for: self.asset!,
+                    targetSize: CGSize(width: width, height: height),
+                    contentMode: .aspectFit,
+                    options: nil,
+                    resultHandler: { image, _ in
+                        self.imageView.image = image
+                    })
+                self.navigationBar.title = self.dateFormatter.string(from: (self.asset!.creationDate)!)
+            }
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

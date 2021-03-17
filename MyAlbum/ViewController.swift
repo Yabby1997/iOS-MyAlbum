@@ -33,17 +33,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         flowLayout.itemSize = CGSize(width: halfWidth - 20, height: halfWidth + 35)
         self.collectionView.collectionViewLayout = flowLayout
         
-        requestPhotoAuthority()
+        requestAlbums()
+        collectionView.reloadData()
     }
     
     // MARK: - Functions
-    func requestPhotoAuthority() {
+    func requestAlbums() {
         let status = PHPhotoLibrary.authorizationStatus()
         
         switch status{
         case .authorized:
             print("Authorized")
-            self.getAlbum()
+            self.getAlbums()
         case .denied:
             print("Denied")
         case .notDetermined:
@@ -52,7 +53,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 switch status {
                 case .authorized:
                     print("Authorized")
-                    self.getAlbum()
+                    self.getAlbums()
                 case .denied:
                     print("Denied")
                 default:
@@ -68,7 +69,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    func getAlbum() {
+    func getAlbums() {
         var collections: [PHAssetCollection] = []
         let recents = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
         let favorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
@@ -113,14 +114,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let album = albums[indexPath.item]
         
-        imageManager.requestImage(
-            for: album.thumbnail,
-            targetSize: CGSize(width: 1000, height: 1000),
-            contentMode: .aspectFill,
-            options: nil,
-            resultHandler: { image, _ in
-                cell.albumThumbnailImageView.image = image
-            })
+        OperationQueue.main.addOperation {
+            self.imageManager.requestImage(
+                for: album.thumbnail,
+                targetSize: CGSize(width: 1000, height: 1000),
+                contentMode: .aspectFill,
+                options: nil,
+                resultHandler: { image, _ in
+                    cell.albumThumbnailImageView.image = image
+                })
+        }
         
         cell.albumThumbnailImageView.layer.cornerRadius = 5
         cell.albumThumbnailImageView.layer.masksToBounds = true
@@ -133,7 +136,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // MARK: - PHPhotoLibraryChangeObserver Methods
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        print("변화발생")
+        self.getAlbums()
+        collectionView.reloadData()
     }
     
     // MARK: - Navigation
