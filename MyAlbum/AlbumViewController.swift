@@ -10,13 +10,15 @@ import Photos
 
 class AlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     // MARK: - IBOutlets
-    @IBOutlet weak var navigationBar: UINavigationItem!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var orderButton: UIBarButtonItem!
     
     // MARK: - Properties
     let imageManager: PHCachingImageManager = PHCachingImageManager()
     let cellIdentifier = "imageCell"
     var album: Album?
+    var assets: PHFetchResult<PHAsset>?
+    var isAscending: Bool = false
     
     // MARK: - View Methods
     override func viewDidLoad() {
@@ -33,7 +35,18 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
         flowLayout.minimumInteritemSpacing = 1.5
         self.collectionView.collectionViewLayout = flowLayout
         
-        navigationBar.title = album?.collectionTitle
+        self.navigationItem.title = album?.collectionTitle
+        
+        orderAndReload()
+    }
+    
+    // MARK: - Functions
+    func orderAndReload() {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: isAscending)]
+        assets = PHAsset.fetchAssets(in: album!.collection, options: fetchOptions)
+        
+        collectionView.reloadData()
     }
     
     // MARK: - CollectionViewDataSource Methods
@@ -46,8 +59,8 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
             return UICollectionViewCell()
         }
         
-        guard let asset = album?.assets[indexPath.item] else {
-            return cell
+        guard let asset = assets?[indexPath.item] else {
+            return UICollectionViewCell()
         }
         
         OperationQueue.main.addOperation {
@@ -74,11 +87,18 @@ class AlbumViewController: UIViewController, UICollectionViewDataSource, UIColle
             return
         }
         
-        guard let asset = album?.assets[indexPath.item] else {
+        guard let asset = self.assets?[indexPath.item] else {
             return
         }
         
         imageViewController.asset = asset
     }
     
+    // MARK: - IBActions
+    @IBAction func touchUpOrderButton(_ sender: UIBarButtonItem) {
+        isAscending.toggle()
+        orderButton.title = isAscending ? "오름차순" : "내림차순"
+        print(isAscending)
+        orderAndReload()
+    }
 }

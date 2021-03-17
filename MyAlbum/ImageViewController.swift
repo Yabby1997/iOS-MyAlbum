@@ -10,7 +10,6 @@ import Photos
 
 class ImageViewController: UIViewController {
     // MARK: - IBOutlet
-    @IBOutlet weak var navigationBar: UINavigationItem!
     @IBOutlet weak var imageView: UIImageView!
     
     // MARK: - Properties
@@ -41,7 +40,7 @@ class ImageViewController: UIViewController {
                     resultHandler: { image, _ in
                         self.imageView.image = image
                     })
-                self.navigationBar.title = self.dateFormatter.string(from: (self.asset!.creationDate)!)
+                self.navigationItem.title = self.dateFormatter.string(from: (self.asset!.creationDate)!)
             }
         }
     }
